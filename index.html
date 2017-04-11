@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="bootstrap.min.css" />
+		<style>
+			body{
+				background-image: url(2.jpg);
+				background-size: cover;
+			}
+			ul,p{
+				margin: 0;
+				padding: 0;
+			}
+			li{
+				list-style: none;
+			}
+			.clearfix:after{
+				content: "";
+				display: block;
+				clear: both;
+			}
+			#week li{
+				float: left;
+				width:100px;
+				height:40px;
+				text-align: center;
+				line-height: 40px;
+				font-weight: bold;
+			}
+			#date li{
+				float: left;
+				width:100px;
+				height:40px;
+				text-align: center;
+				line-height: 40px;
+			}
+			#date{
+				width:700px;
+			}
+			#top input,#top p{
+				float: left;
+				font-weight: bold;
+			}
+			#top p{
+				margin-left: 10px;
+				margin-right: 10px;
+				font:22px "微软雅黑";
+				font-weight: bold;
+			}
+			#top{
+				margin-bottom: 20px;
+				margin-left: 250px;
+			}
+			.past{
+				color: black;
+			}
+			.today{
+				color: white;
+				font-weight: bold;
+				background-color: orange;
+			}
+			.black{
+				color: orange;
+				font-weight: bold;
+			}
+			.box{
+				margin: 0 auto;
+				margin-top: 30px;
+				width:700px;
+		</style>
+	</head>
+	<body>
+		<div class="box">
+			<div id="top" class="clearfix">
+				<input type="button" value="＜" class="btn btn-default"/>
+				<p></p>
+				<input type="button" value="＞" class="btn btn-default"/>
+			</div>
+			<ul id="week" class="clearfix">
+				<li>星期日</li>
+				<li>星期一</li>
+				<li>星期二</li>
+				<li>星期三</li>
+				<li>星期四</li>
+				<li>星期五</li>
+				<li>星期六</li>
+			</ul>
+			<ul id="date" class="clearfix">
+				
+			</ul>
+		</div>
+		
+		
+		<script>
+			var datebox = document.getElementById("date");
+			var topText=document.querySelectorAll("#top p")[0];
+			
+			cont(0);
+			function cont(n){
+				var time = new Date();
+				
+				var month = time.getMonth()+n;
+				time.setMonth(month);
+				var month_1 = time.getMonth();
+				
+				var year = time.getFullYear();
+				var today = new Date().getDate();
+			    time.setDate(1);
+			    var week = time.getDay();
+			    time.setDate(0);
+			    var upDate=time.getDate();
+				time.setMonth(month+1);
+				time.setDate(0);
+				var length = time.getDate();
+				
+				var str = "";
+				/*for (var i = 0; i < length + week; i++) {
+					if(i-week < 0){
+						str += "<li></li>";
+					}else{
+						if(i < today + week -1){
+							str += "<li  class='past'>"+(i-week+1)+"</li>";
+						}else{
+							str += "<li >"+(i-week+1)+"</li>";
+						}
+					}
+				}*/
+				for(var i=upDate-week+1;i<upDate+1;i++){
+					str += "<li  class='past'>"+i+"</li>";
+				}
+				for(var i=1;i<length+1;i++){
+					if(i<today){
+						str += "<li  class='past'>"+i+"</li>";
+					}
+					if(i==today){
+						str += "<li  class='today'>"+i+"</li>";
+					}
+					if(i>today){
+						str += "<li  class='black'>"+i+"</li>";
+					}
+				}
+				for(var i=1;i<42-week-length+1;i++){
+					str += "<li  class='past'>"+i+"</li>";
+				}
+				
+				datebox.innerHTML = str;
+				var lis = datebox.getElementsByTagName("li");
+				lis[today + week -1].className = "today";
+				
+				topText.innerHTML=year+"年"+(month_1+1)+"月";
+			}
+			
+			var btnL=document.querySelectorAll("#top input")[1];
+			var btnR=document.querySelectorAll("#top input")[0];
+			var n=0;
+			btnL.onclick=function(){
+				n++;
+				cont(n);
+			}
+			btnR.onclick=function(){
+				n--;
+				cont(n);
+			}
+			
+		</script>
+	</body>
+</html>
